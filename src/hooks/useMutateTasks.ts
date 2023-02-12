@@ -4,7 +4,7 @@ import { resetEditedTask } from '../slices/todoSlice'
 import { useQueryClient, useMutation } from '@tanstack/react-query'
 import { Task, EditTask } from '../types/types'
 
-export const useMutateTask = () => {
+export const useMutateTasks = () => {
   const dispatch = useAppDispatch()
   const queryClient = useQueryClient()
 
@@ -13,12 +13,12 @@ export const useMutateTask = () => {
       axios.post<Task>(`${process.env.REACT_APP_REST_API}/tasks/`, task),
     {
       onSuccess: (res) => {
-        const previousTodos = queryClient.getQueryData<Task[]>('tasks')
+        const previousTodos = queryClient.getQueryData<Task[]>(['tasks'])
         if (previousTodos) {
-          queryClient.setQueryData<Task[]>('tasks', [
-            ...previousTodos,
-            res.data,
-          ])
+          queryClient.setQueryData<Task[]>(
+            ['tasks'],
+            [...previousTodos, res.data]
+          )
         }
         dispatch(resetEditedTask())
       },
@@ -32,10 +32,10 @@ export const useMutateTask = () => {
       ),
     {
       onSuccess: (res, variables) => {
-        const previousTodos = queryClient.getQueriesData<Task[]>('tasks')
+        const previousTodos = queryClient.getQueryData<Task[]>(['tasks'])
         if (previousTodos) {
           queryClient.setQueryData<Task[]>(
-            'tasks',
+            ['tasks'],
             previousTodos.map((task) =>
               task.id === variables.id ? res.data : task
             )
@@ -45,4 +45,21 @@ export const useMutateTask = () => {
       },
     }
   )
+  const deleteTaskMutation = useMutation(
+    (id: number) =>
+      axios.delete(`${process.env.REACT_APP_REST_API}/tasks/${id}`),
+    {
+      onSuccess: (res, variables) => {
+        const previousTodos = queryClient.getQueryData<Task[]>(['tasks'])
+        if (previousTodos) {
+          queryClient.setQueryData<Task[]>(
+            ['tasks'],
+            previousTodos.filter((task) => task.id !== variables)
+          )
+        }
+        dispatch(resetEditedTask())
+      },
+    }
+  )
+  return { deleteTaskMutation, createTaskMutation, updateTaskMutation }
 }
