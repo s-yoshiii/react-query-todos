@@ -20,4 +20,39 @@ export const useMutateTags = () => {
       },
     }
   )
+  const updateTagMutation = useMutation(
+    (tag: Tag) =>
+      axios.put<Tag>(`${process.env.REACT_APP_REST_API}/tag/${tag.id}/`, tag),
+    {
+      onSuccess: (res, variables) => {
+        const previousTags = queryClient.getQueryData<Tag[]>(['tag'])
+        if (previousTags) {
+          queryClient.setQueryData<Tag[]>(
+            ['tag'],
+            previousTags.map((tag) =>
+              tag.id === variables.id ? res.data : tag
+            )
+          )
+        }
+        dispatch(resetEditedTag())
+      },
+    }
+  )
+  const deleteTagMutation = useMutation(
+    (id: number) =>
+      axios.delete(`${process.env.REACT_APP_REST_API}/tag/${id}/`),
+    {
+      onSuccess: (res, variables) => {
+        const previousTags = queryClient.getQueryData<Tag[]>(['tags'])
+        if (previousTags) {
+          queryClient.setQueryData<Tag[]>(
+            ['tags'],
+            previousTags.filter((tag) => tag.id !== variables)
+          )
+        }
+        dispatch(resetEditedTag())
+      },
+    }
+  )
+  return { deleteTagMutation, createTagMutation, updateTagMutation }
 }
