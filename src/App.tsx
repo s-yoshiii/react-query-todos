@@ -17,9 +17,9 @@ const App: FC = () => {
     <div className="flex justify-center items-center flex-col min-h-screen text-gray-600 text-sm font-mono">
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
-          <Route exact path="/">
-            <MainTask />
-          </Route>
+          <Routes>
+            <Route path="/" element={<MainTask />}></Route>
+          </Routes>
         </BrowserRouter>
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
