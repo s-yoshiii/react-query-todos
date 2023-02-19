@@ -63,4 +63,4 @@ const TaskEdit: FC = () => {
   )
 }
 
-export default TaskEdit
+export const TaskEditMemo = memo(TaskEdit)
