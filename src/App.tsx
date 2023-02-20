@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import MainTask from './components/MainTask'
+import MainTag from './components/MainTag'
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -19,6 +20,7 @@ const App: FC = () => {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<MainTask />}></Route>
+            <Route path="/tags" element={<MainTag />}></Route>
           </Routes>
         </BrowserRouter>
         <ReactQueryDevtools initialIsOpen={false} />
