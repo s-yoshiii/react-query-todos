@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { useAppDispatch } from '../app/hooks'
-import { resetEditedTag, resetEditedTask } from '../slices/todoSlice'
+import { resetEditedTag } from '../slices/todoSlice'
 import { useQueryClient, useMutation } from '@tanstack/react-query'
 import { Tag } from '../types/types'
 
