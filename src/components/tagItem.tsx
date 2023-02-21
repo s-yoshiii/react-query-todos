@@ -8,7 +8,7 @@ interface Props {
   tag: Tag
 }
 
-const tagItem: FC<Props> = ({ tag }) => {
+const TagItem: FC<Props> = ({ tag }) => {
   const dispatch = useAppDispatch()
   const { deleteTagMutation } = useMutateTags()
   console.log('renedered TagItem')
@@ -36,4 +36,4 @@ const tagItem: FC<Props> = ({ tag }) => {
   )
 }
 
-export const tagItemMemo = memo(tagItem)
+export const TagItemMemo = memo(TagItem)
