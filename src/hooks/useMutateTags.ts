@@ -12,7 +12,7 @@ export const useMutateTags = () => {
       axios.post<Tag>(`${process.env.REACT_APP_REST_API}/tags/`, tag),
     {
       onSuccess: (res) => {
-        const previousTags = queryClient.getQueryData<Tag[]>(['tag'])
+        const previousTags = queryClient.getQueryData<Tag[]>(['tags'])
         if (previousTags) {
           queryClient.setQueryData<Tag[]>(['tags'], [...previousTags, res.data])
         }
@@ -22,13 +22,13 @@ export const useMutateTags = () => {
   )
   const updateTagMutation = useMutation(
     (tag: Tag) =>
-      axios.put<Tag>(`${process.env.REACT_APP_REST_API}/tag/${tag.id}/`, tag),
+      axios.put<Tag>(`${process.env.REACT_APP_REST_API}/tags/${tag.id}/`, tag),
     {
       onSuccess: (res, variables) => {
-        const previousTags = queryClient.getQueryData<Tag[]>(['tag'])
+        const previousTags = queryClient.getQueryData<Tag[]>(['tags'])
         if (previousTags) {
           queryClient.setQueryData<Tag[]>(
-            ['tag'],
+            ['tags'],
             previousTags.map((tag) =>
               tag.id === variables.id ? res.data : tag
             )
@@ -40,7 +40,7 @@ export const useMutateTags = () => {
   )
   const deleteTagMutation = useMutation(
     (id: number) =>
-      axios.delete(`${process.env.REACT_APP_REST_API}/tag/${id}/`),
+      axios.delete(`${process.env.REACT_APP_REST_API}/tags/${id}/`),
     {
       onSuccess: (res, variables) => {
         const previousTags = queryClient.getQueryData<Tag[]>(['tags'])

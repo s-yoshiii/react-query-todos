@@ -1,7 +1,7 @@
 import { FC, memo } from 'react'
 import { useAppDispatch } from '../app/hooks'
 import { setEditedTag } from '../slices/todoSlice'
-import { PencilAltIcon, TagIcon, TrashIcon } from '@heroicons/react/solid'
+import { PencilAltIcon, TrashIcon } from '@heroicons/react/solid'
 import { useMutateTags } from '../hooks/useMutateTags'
 import { Tag } from '../types/types'
 interface Props {
